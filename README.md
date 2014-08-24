@@ -1,51 +1,55 @@
-# Avarzer's Course Project for the "Getting and Cleaning Data" course offered by Johns Hopkins University
+# Avarzer's Course Project for the "Getting and Cleaning Data" course offered by Johns Hopkins University: Line-by-line description and codebook.
+ Note: Underscores, ampersands, tildes and double quotes have been removed from this document for markdown-compatibility
+ 
+### Before the code in run_assignment is run, the first line has to be changed!!! The working directory now refers to a different directory from the one you will be using. So please change the working directory to the UCI HAR Dataset directory on your computer.
 
 ## Line-by-line description of the code
 
-1. The working directory is set to the UCI HAR Dataset folder, which has two subfolders: test and train.
-2. The features.txt file is read in. If we read in the features.txt file normally, we get a matrix with 2 columns,
+(1.) The working directory is set to the UCI HAR Dataset folder, which has two subfolders: test and train.  
+(2.) The features.txt file is read in. If we read in the features.txt file normally, we get a matrix with 2 columns,
 with the names of the variables in the second column as a factor. Because we want to use the names later on,
-we extract the second column and read the names in as strings(/characters).
-3. and 4. We read in the test and train dataframes, and give them the names Xtest and Xtrain
-6. and 7. We read in the subject IDs for the test and training datasets, and give them the names subjecttrain 
-and subjecttest
-8. We combine the subject IDs from the test dataset with the subject IDs from the train dataset,
-by adding the subjecttrain data as new rows to the subjecttest data
-10. and 11. We read in the activity IDs for the test and training datasets, and give them the names ytrain 
-and ytest
-12. We combine the activity IDs from the test dataset with the activity IDs from the train dataset,
-by adding the ytrain data as new rows to the ytest data
-13. We initialize ActivityLabels, which we will fill with proper names for the activities, to replace
-the numberIDs
-14. 15. 16. 17. 18. 19. Each element of ActivityLabels is assigned its namevalue. This could have been done more efficiently,
-but this seems to be optimally readable.
-21. and 22. The names of the variables named features (see 2.) are assigned to the variable values (see 3. and 4.). These names are assigned to both datasets: These have to match later on, which provides us with a small extra check.
-23. The data of the variables are combined for the Xtest and the Xtrain data. This is done by adding the rows of
-Xtrain to the rows of Xtest. The new dataframe is called mydata.
-25. We initialize mean.or.std, which will be used to check whether names refer to a mean or a standard deviation.
-26. A for-loop is started, looping through each name.
-27. The last 5 characters of each name are taken.
-28. 6 characters of each name are taken, skipping the last letter.
-29. A logical vector is made, that for each name evaluates whether the name refers to a mean or standard deviation,
-on the basis of the last 5 characters, or the 6 characters from step 28.
-30. The for-loop is ended
-32. A subset of the data is taken: Only the columns of which the name refers to a mean or a standard deviation
-are selected for the new data. The new reduced dataframe is called mydata.subset.
-34. The columns with the SubjectIDs, ActivityIDs, ActivityLabels are added to the left of mydata.subset. To save each
-object separately, and to keep variablenames slightly shorter, the new object is called MyData.
-35. and 36. The two first columns of the MyData object have no names. They are given their proper names: SubjectID and
-ActivityID. ActivityLabels is already properly named
-38. MyTidyData is initialized by calculating, using the aggregate function, the mean of the first variable
-( tBodyAcc-mean()-X ) in the datafile, for each Subject and each Activity separately. 
-39. A for-loop is started, because the procedure from 38. has to be performed for every variable.
+we extract the second column and read the names in as strings(/characters).  
+(3. and 4.) We read in the test and train dataframes, and give them the names Xtest and Xtrain.  
+(6. and 7.) We read in the subject IDs for the test and training datasets, and give them the names subjecttrain 
+and subjecttest.  
+(8.) We combine the subject IDs from the test dataset with the subject IDs from the train dataset,
+by adding the subjecttrain data as new rows to the subjecttest data.  
+(10. and 11.) We read in the activity IDs for the test and training datasets, and give them the names ytrain 
+and ytest.  
+(12.) We combine the activity IDs from the test dataset with the activity IDs from the train dataset,
+by adding the ytrain data as new rows to the ytest data.  
+(13.) We initialize ActivityLabels, which we will fill with proper names for the activities, to replace
+the numberIDs.  
+(14. to 19.) Each element of ActivityLabels is assigned its namevalue. This could have been done more efficiently,
+but this seems to be optimally readable.  
+(21. and 22.) The names of the variables named features (see 2.) are assigned to the variable values (see 3. and 4.). These names are assigned to both datasets: These have to match later on, which provides us with a small extra check.  
+(23.) The data of the variables are combined for the Xtest and the Xtrain data. This is done by adding the rows of
+Xtrain to the rows of Xtest. The new dataframe is called mydata.  
+(25.) We initialize mean.or.std, which will be used to check whether names refer to a mean or a standard deviation.  
+(26.) A for-loop is started, looping through each name.  
+(27.) The last 5 characters of each name are taken.  
+(28.) 6 characters of each name are taken, skipping the last letter.  
+(29.) A logical vector is made, that for each name evaluates whether the name refers to a mean or standard deviation,
+on the basis of the last 5 characters, or the 6 characters from step 28.  
+(30.) The for-loop is ended.  
+(32.) A subset of the data is taken: Only the columns of which the name refers to a mean or a standard deviation
+are selected for the new data. The new reduced dataframe is called mydata.subset.  
+(34.) The columns with the SubjectIDs, ActivityIDs, ActivityLabels are added to the left of mydata.subset. To save each
+object separately, and to keep variablenames slightly shorter, the new object is called MyData.  
+(35. and 36.) The two first columns of the MyData object have no names. They are given their proper names: SubjectID and
+ActivityID. ActivityLabels is already properly named.  
+(38.) MyTidyData is initialized by calculating, using the aggregate function, the mean of the first variable
+( tBodyAcc-mean()-X ) in the datafile, for each Subject and each Activity separately.  
+(39.) A for-loop is started, because the procedure from 38. has to be performed for every variable.
 Because we only take means and standard deviations, the number of variables has been greatly reduced,
-to less than 70.
-40. For each variable, the procedure from 38 is carried out. The resulting third column, containing the
+to less than 70.  
+(40.) For each variable, the procedure from 38 is carried out. The resulting third column, containing the
 means for each subject for each activity, is attached to the columns that were generated in earlier instances
-of the loop (thereby growing the dataframe. I know this is not as advised, but it works well).
-41. The loop is ended.
-42. The column names of the final MyTidyData object are adjusted a bit, pasting MEAN: to the variable
-names, to denote that these are now means (for every subject and every activity)
+of the loop (thereby growing the dataframe. I know this is not as advised, but it works well).  
+(41.) The loop is ended.  
+(42.) The column names of the final MyTidyData object are adjusted a bit, pasting MEAN: to the variable
+names, to denote that these are now means (for every subject and every activity).  
+(44.) The MyTidyData object is written to the working directory on the hard disk, without row names, with the filename "AvarzerTidyData.txt".  
 
 ## Codebook
 
